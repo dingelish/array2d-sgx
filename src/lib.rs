@@ -151,8 +151,18 @@
 //! [row major or column major order]: https://en.wikipedia.org/wiki/Row-_and_column-major_order
 
 #![deny(missing_docs)]
+#![no_std]
+//#![feature(alloc)]
 
-use std::ops::{Index, IndexMut};
+#[macro_use]
+extern crate alloc;
+extern crate core;
+
+use alloc::vec::*;
+use core::ops::{Index, IndexMut};
+use core::prelude::v1::*;
+
+//use core::ops::{Index, IndexMut};
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -610,8 +620,10 @@ impl<T> Array2D<T> {
     ///
     /// [`None`]: https://doc.rust-lang.org/std/option/enum.Option.html#variant.None
     pub fn get_column_major(&self, index: usize) -> Option<&T> {
-        let column = dbg!(dbg!(index) / self.num_rows);
-        let row = dbg!(index % self.num_rows);
+        //let column = dbg!(dbg!(index) / self.num_rows);
+        //let row = dbg!(index % self.num_rows);
+        let column = index / self.num_rows;
+        let row = index % self.num_rows;
         self.get(row, column)
     }
 
